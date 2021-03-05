@@ -1,0 +1,29 @@
+server:
+  port: 8787
+  tomcat:
+    accesslog:
+      buffered: true
+      directory: logs
+      enabled: false
+      file-date-format: .yyyy-MM-dd
+      pattern: common
+      prefix: access_log
+      rename-on-rotate: false
+      request-attributes-enabled: false
+      rotate: true
+      suffix: .log
+    mbeanregistry:
+      enabled: true
+spring:
+  application:
+    name: rate-limiter-server
+  profiles:
+    active: dev
+  rate-limiter:
+    app-name: rate-limiter-server
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.rookiefly.ratelimiter.server.domain
+  configuration:
+    map-underscore-to-camel-case: true

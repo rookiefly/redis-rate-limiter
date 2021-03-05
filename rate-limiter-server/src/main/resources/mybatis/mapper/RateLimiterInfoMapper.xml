@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rookiefly.ratelimiter.server.mapper.RateLimiterInfoMapper">
+
+    <select id="selectAll" resultType="RateLimiterInfo">
+        select *
+        from rate_limiter_info
+    </select>
+
+    <select id="selectByAppName" resultType="RateLimiterInfo">
+        select *
+        from rate_limiter_info
+        where app_name = #{appName}
+    </select>
+
+    <insert id="saveOrUpdate" parameterType="map">
+        insert into rate_limiter_info(`resource_name`, `app_name`, `max_permits`, `rate`)
+        VALUES (#{resourceName}, #{appName}, #{maxPermits}, #{rate})
+        on duplicate key update max_permits=#{maxPermits},
+                                rate=#{rate}
+    </insert>
+
+    <select id="selectByName" parameterType="map" resultType="RateLimiterInfo">
+        select *
+        from rate_limiter_info
+        where app_name = #{appName}
+          and resource_name = #{resourceName}
+    </select>
+
+
+    <delete id="deleteByName" parameterType="map">
+        delete
+        from rate_limiter_info
+        where app_name = #{appName}
+          and resource_name = #{resourceName}
+    </delete>
+</mapper>
